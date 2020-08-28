@@ -1,7 +1,7 @@
-import decodeCodePoint from "entities/lib/decode_codepoint";
-import entityMap from "entities/lib/maps/entities.json";
-import legacyMap from "entities/lib/maps/legacy.json";
-import xmlMap from "entities/lib/maps/xml.json";
+import decodeCodePoint from 'entities/lib/decode_codepoint';
+import entityMap from 'entities/lib/maps/entities.json';
+import legacyMap from 'entities/lib/maps/legacy.json';
+import xmlMap from 'entities/lib/maps/xml.json';
 
 /** All the states the tokenizer can be in. */
 const enum State {
@@ -97,11 +97,11 @@ const enum Special {
 }
 
 function whitespace(c: string): boolean {
-  return c === " " || c === "\n" || c === "\t" || c === "\f" || c === "\r";
+  return c === ' ' || c === '\n' || c === '\t' || c === '\f' || c === '\r';
 }
 
 function isASCIIAlpha(c: string): boolean {
-  return (c >= "a" && c <= "z") || (c >= "A" && c <= "Z");
+  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 }
 
 interface Callbacks {
@@ -159,66 +159,66 @@ function consumeSpecialNameChar(upper: string, NEXT_STATE: State) {
 }
 
 const stateBeforeCdata1 = ifElseState(
-  "C",
+  'C',
   State.BeforeCdata2,
   State.InDeclaration
 );
 const stateBeforeCdata2 = ifElseState(
-  "D",
+  'D',
   State.BeforeCdata3,
   State.InDeclaration
 );
 const stateBeforeCdata3 = ifElseState(
-  "A",
+  'A',
   State.BeforeCdata4,
   State.InDeclaration
 );
 const stateBeforeCdata4 = ifElseState(
-  "T",
+  'T',
   State.BeforeCdata5,
   State.InDeclaration
 );
 const stateBeforeCdata5 = ifElseState(
-  "A",
+  'A',
   State.BeforeCdata6,
   State.InDeclaration
 );
 
-const stateBeforeScript1 = consumeSpecialNameChar("R", State.BeforeScript2);
-const stateBeforeScript2 = consumeSpecialNameChar("I", State.BeforeScript3);
-const stateBeforeScript3 = consumeSpecialNameChar("P", State.BeforeScript4);
-const stateBeforeScript4 = consumeSpecialNameChar("T", State.BeforeScript5);
+const stateBeforeScript1 = consumeSpecialNameChar('R', State.BeforeScript2);
+const stateBeforeScript2 = consumeSpecialNameChar('I', State.BeforeScript3);
+const stateBeforeScript3 = consumeSpecialNameChar('P', State.BeforeScript4);
+const stateBeforeScript4 = consumeSpecialNameChar('T', State.BeforeScript5);
 
-const stateAfterScript1 = ifElseState("R", State.AfterScript2, State.Text);
-const stateAfterScript2 = ifElseState("I", State.AfterScript3, State.Text);
-const stateAfterScript3 = ifElseState("P", State.AfterScript4, State.Text);
-const stateAfterScript4 = ifElseState("T", State.AfterScript5, State.Text);
+const stateAfterScript1 = ifElseState('R', State.AfterScript2, State.Text);
+const stateAfterScript2 = ifElseState('I', State.AfterScript3, State.Text);
+const stateAfterScript3 = ifElseState('P', State.AfterScript4, State.Text);
+const stateAfterScript4 = ifElseState('T', State.AfterScript5, State.Text);
 
-const stateBeforeStyle1 = consumeSpecialNameChar("Y", State.BeforeStyle2);
-const stateBeforeStyle2 = consumeSpecialNameChar("L", State.BeforeStyle3);
-const stateBeforeStyle3 = consumeSpecialNameChar("E", State.BeforeStyle4);
+const stateBeforeStyle1 = consumeSpecialNameChar('Y', State.BeforeStyle2);
+const stateBeforeStyle2 = consumeSpecialNameChar('L', State.BeforeStyle3);
+const stateBeforeStyle3 = consumeSpecialNameChar('E', State.BeforeStyle4);
 
-const stateAfterStyle1 = ifElseState("Y", State.AfterStyle2, State.Text);
-const stateAfterStyle2 = ifElseState("L", State.AfterStyle3, State.Text);
-const stateAfterStyle3 = ifElseState("E", State.AfterStyle4, State.Text);
+const stateAfterStyle1 = ifElseState('Y', State.AfterStyle2, State.Text);
+const stateAfterStyle2 = ifElseState('L', State.AfterStyle3, State.Text);
+const stateAfterStyle3 = ifElseState('E', State.AfterStyle4, State.Text);
 
-const stateBeforeSpecialT = consumeSpecialNameChar("I", State.BeforeTitle1);
-const stateBeforeTitle1 = consumeSpecialNameChar("T", State.BeforeTitle2);
-const stateBeforeTitle2 = consumeSpecialNameChar("L", State.BeforeTitle3);
-const stateBeforeTitle3 = consumeSpecialNameChar("E", State.BeforeTitle4);
+const stateBeforeSpecialT = consumeSpecialNameChar('I', State.BeforeTitle1);
+const stateBeforeTitle1 = consumeSpecialNameChar('T', State.BeforeTitle2);
+const stateBeforeTitle2 = consumeSpecialNameChar('L', State.BeforeTitle3);
+const stateBeforeTitle3 = consumeSpecialNameChar('E', State.BeforeTitle4);
 
-const stateAfterSpecialTEnd = ifElseState("I", State.AfterTitle1, State.Text);
-const stateAfterTitle1 = ifElseState("T", State.AfterTitle2, State.Text);
-const stateAfterTitle2 = ifElseState("L", State.AfterTitle3, State.Text);
-const stateAfterTitle3 = ifElseState("E", State.AfterTitle4, State.Text);
+const stateAfterSpecialTEnd = ifElseState('I', State.AfterTitle1, State.Text);
+const stateAfterTitle1 = ifElseState('T', State.AfterTitle2, State.Text);
+const stateAfterTitle2 = ifElseState('L', State.AfterTitle3, State.Text);
+const stateAfterTitle3 = ifElseState('E', State.AfterTitle4, State.Text);
 
 const stateBeforeEntity = ifElseState(
-  "#",
+  '#',
   State.BeforeNumericEntity,
   State.InNamedEntity
 );
 const stateBeforeNumericEntity = ifElseState(
-  "X",
+  'X',
   State.InHexEntity,
   State.InNumericEntity
 );
@@ -227,7 +227,7 @@ export default class Tokenizer {
   /** The current state the tokenizer is in. */
   _state = State.Text;
   /** The read buffer. */
-  _buffer = "";
+  _buffer = '';
   /** The beginning of the section that is currently being read. */
   _sectionStart = 0;
   /** The index within the buffer that we are currently looking at. */
@@ -261,7 +261,7 @@ export default class Tokenizer {
 
   reset() {
     this._state = State.Text;
-    this._buffer = "";
+    this._buffer = '';
     this._sectionStart = 0;
     this._index = 0;
     this._bufferOffset = 0;
@@ -272,7 +272,7 @@ export default class Tokenizer {
   }
 
   _stateText(c: string) {
-    if (c === "<") {
+    if (c === '<') {
       if (this._index > this._sectionStart) {
         this._cbs.ontext(this._getSection());
       }
@@ -281,7 +281,7 @@ export default class Tokenizer {
     } else if (
       this._decodeEntities &&
       this._special === Special.None &&
-      c === "&"
+      c === '&'
     ) {
       if (this._index > this._sectionStart) {
         this._cbs.ontext(this._getSection());
@@ -292,34 +292,34 @@ export default class Tokenizer {
     }
   }
   _stateBeforeTagName(c: string) {
-    if (c === "/") {
+    if (c === '/') {
       this._state = State.BeforeClosingTagName;
-    } else if (c === "<") {
+    } else if (c === '<') {
       this._cbs.ontext(this._getSection());
       this._sectionStart = this._index;
-    } else if (c === ">" || this._special !== Special.None || whitespace(c)) {
+    } else if (c === '>' || this._special !== Special.None || whitespace(c)) {
       this._state = State.Text;
-    } else if (c === "!") {
+    } else if (c === '!') {
       this._state = State.BeforeDeclaration;
       this._sectionStart = this._index + 1;
-    } else if (c === "?") {
+    } else if (c === '?') {
       this._state = State.InProcessingInstruction;
       this._sectionStart = this._index + 1;
     } else if (!isASCIIAlpha(c)) {
       this._state = State.Text;
     } else {
       this._state =
-        !this._xmlMode && (c === "s" || c === "S")
+        !this._xmlMode && (c === 's' || c === 'S')
           ? State.BeforeSpecialS
-          : !this._xmlMode && (c === "t" || c === "T")
+          : !this._xmlMode && (c === 't' || c === 'T')
           ? State.BeforeSpecialT
           : State.InTagName;
       this._sectionStart = this._index;
     }
   }
   _stateInTagName(c: string) {
-    if (c === "/" || c === ">" || whitespace(c)) {
-      this._emitToken("onopentagname");
+    if (c === '/' || c === '>' || whitespace(c)) {
+      this._emitToken('onopentagname');
       this._state = State.BeforeAttributeName;
       this._index--;
     }
@@ -327,12 +327,12 @@ export default class Tokenizer {
   _stateBeforeClosingTagName(c: string) {
     if (whitespace(c)) {
       // ignore
-    } else if (c === ">") {
+    } else if (c === '>') {
       this._state = State.Text;
     } else if (this._special !== Special.None) {
-      if (c === "s" || c === "S") {
+      if (c === 's' || c === 'S') {
         this._state = State.BeforeSpecialSEnd;
-      } else if (c === "t" || c === "T") {
+      } else if (c === 't' || c === 'T') {
         this._state = State.BeforeSpecialTEnd;
       } else {
         this._state = State.Text;
@@ -347,25 +347,25 @@ export default class Tokenizer {
     }
   }
   _stateInClosingTagName(c: string) {
-    if (c === ">" || whitespace(c)) {
-      this._emitToken("onclosetag");
+    if (c === '>' || whitespace(c)) {
+      this._emitToken('onclosetag');
       this._state = State.AfterClosingTagName;
       this._index--;
     }
   }
   _stateAfterClosingTagName(c: string) {
     //skip everything until ">"
-    if (c === ">") {
+    if (c === '>') {
       this._state = State.Text;
       this._sectionStart = this._index + 1;
     }
   }
   _stateBeforeAttributeName(c: string) {
-    if (c === ">") {
+    if (c === '>') {
       this._cbs.onopentagend();
       this._state = State.Text;
       this._sectionStart = this._index + 1;
-    } else if (c === "/") {
+    } else if (c === '/') {
       this._state = State.InSelfClosingTag;
     } else if (!whitespace(c)) {
       this._state = State.InAttributeName;
@@ -373,7 +373,7 @@ export default class Tokenizer {
     }
   }
   _stateInSelfClosingTag(c: string) {
-    if (c === ">") {
+    if (c === '>') {
       this._cbs.onselfclosingtag();
       this._state = State.Text;
       this._sectionStart = this._index + 1;
@@ -384,7 +384,7 @@ export default class Tokenizer {
     }
   }
   _stateInAttributeName(c: string) {
-    if (c === "=" || c === "/" || c === ">" || whitespace(c)) {
+    if (c === '=' || c === '/' || c === '>' || whitespace(c)) {
       this._cbs.onattribname(this._getSection());
       this._sectionStart = -1;
       this._state = State.AfterAttributeName;
@@ -392,9 +392,9 @@ export default class Tokenizer {
     }
   }
   _stateAfterAttributeName(c: string) {
-    if (c === "=") {
+    if (c === '=') {
       this._state = State.BeforeAttributeValue;
-    } else if (c === "/" || c === ">") {
+    } else if (c === '/' || c === '>') {
       this._cbs.onattribend();
       this._state = State.BeforeAttributeName;
       this._index--;
@@ -419,11 +419,11 @@ export default class Tokenizer {
   }
   _stateInAttributeValueDoubleQuotes(c: string) {
     if (c === '"') {
-      this._emitToken("onattribdata");
+      this._emitToken('onattribdata');
       this._cbs.onattribend();
       this._state = State.BeforeAttributeName;
-    } else if (this._decodeEntities && c === "&") {
-      this._emitToken("onattribdata");
+    } else if (this._decodeEntities && c === '&') {
+      this._emitToken('onattribdata');
       this._baseState = this._state;
       this._state = State.BeforeEntity;
       this._sectionStart = this._index;
@@ -431,24 +431,24 @@ export default class Tokenizer {
   }
   _stateInAttributeValueSingleQuotes(c: string) {
     if (c === "'") {
-      this._emitToken("onattribdata");
+      this._emitToken('onattribdata');
       this._cbs.onattribend();
       this._state = State.BeforeAttributeName;
-    } else if (this._decodeEntities && c === "&") {
-      this._emitToken("onattribdata");
+    } else if (this._decodeEntities && c === '&') {
+      this._emitToken('onattribdata');
       this._baseState = this._state;
       this._state = State.BeforeEntity;
       this._sectionStart = this._index;
     }
   }
   _stateInAttributeValueNoQuotes(c: string) {
-    if (whitespace(c) || c === ">") {
-      this._emitToken("onattribdata");
+    if (whitespace(c) || c === '>') {
+      this._emitToken('onattribdata');
       this._cbs.onattribend();
       this._state = State.BeforeAttributeName;
       this._index--;
-    } else if (this._decodeEntities && c === "&") {
-      this._emitToken("onattribdata");
+    } else if (this._decodeEntities && c === '&') {
+      this._emitToken('onattribdata');
       this._baseState = this._state;
       this._state = State.BeforeEntity;
       this._sectionStart = this._index;
@@ -456,28 +456,28 @@ export default class Tokenizer {
   }
   _stateBeforeDeclaration(c: string) {
     this._state =
-      c === "["
+      c === '['
         ? State.BeforeCdata1
-        : c === "-"
+        : c === '-'
         ? State.BeforeComment
         : State.InDeclaration;
   }
   _stateInDeclaration(c: string) {
-    if (c === ">") {
+    if (c === '>') {
       this._cbs.ondeclaration(this._getSection());
       this._state = State.Text;
       this._sectionStart = this._index + 1;
     }
   }
   _stateInProcessingInstruction(c: string) {
-    if (c === ">") {
+    if (c === '>') {
       this._cbs.onprocessinginstruction(this._getSection());
       this._state = State.Text;
       this._sectionStart = this._index + 1;
     }
   }
   _stateBeforeComment(c: string) {
-    if (c === "-") {
+    if (c === '-') {
       this._state = State.InComment;
       this._sectionStart = this._index + 1;
     } else {
@@ -485,10 +485,10 @@ export default class Tokenizer {
     }
   }
   _stateInComment(c: string) {
-    if (c === "-") this._state = State.AfterComment1;
+    if (c === '-') this._state = State.AfterComment1;
   }
   _stateInSpecialComment(c: string) {
-    if (c === ">") {
+    if (c === '>') {
       this._cbs.oncomment(
         this._buffer.substring(this._sectionStart, this._index)
       );
@@ -497,27 +497,27 @@ export default class Tokenizer {
     }
   }
   _stateAfterComment1(c: string) {
-    if (c === "-") {
+    if (c === '-') {
       this._state = State.AfterComment2;
     } else {
       this._state = State.InComment;
     }
   }
   _stateAfterComment2(c: string) {
-    if (c === ">") {
+    if (c === '>') {
       //remove 2 trailing chars
       this._cbs.oncomment(
         this._buffer.substring(this._sectionStart, this._index - 2)
       );
       this._state = State.Text;
       this._sectionStart = this._index + 1;
-    } else if (c !== "-") {
+    } else if (c !== '-') {
       this._state = State.InComment;
     }
     // else: stay in AFTER_COMMENT_2 (`--->`)
   }
   _stateBeforeCdata6(c: string) {
-    if (c === "[") {
+    if (c === '[') {
       this._state = State.InCdata;
       this._sectionStart = this._index + 1;
     } else {
@@ -526,29 +526,29 @@ export default class Tokenizer {
     }
   }
   _stateInCdata(c: string) {
-    if (c === "]") this._state = State.AfterCdata1;
+    if (c === ']') this._state = State.AfterCdata1;
   }
   _stateAfterCdata1(c: string) {
-    if (c === "]") this._state = State.AfterCdata2;
+    if (c === ']') this._state = State.AfterCdata2;
     else this._state = State.InCdata;
   }
   _stateAfterCdata2(c: string) {
-    if (c === ">") {
+    if (c === '>') {
       //remove 2 trailing chars
       this._cbs.oncdata(
         this._buffer.substring(this._sectionStart, this._index - 2)
       );
       this._state = State.Text;
       this._sectionStart = this._index + 1;
-    } else if (c !== "]") {
+    } else if (c !== ']') {
       this._state = State.InCdata;
     }
     //else: stay in AFTER_CDATA_2 (`]]]>`)
   }
   _stateBeforeSpecialS(c: string) {
-    if (c === "c" || c === "C") {
+    if (c === 'c' || c === 'C') {
       this._state = State.BeforeScript1;
-    } else if (c === "t" || c === "T") {
+    } else if (c === 't' || c === 'T') {
       this._state = State.BeforeStyle1;
     } else {
       this._state = State.InTagName;
@@ -556,21 +556,21 @@ export default class Tokenizer {
     }
   }
   _stateBeforeSpecialSEnd(c: string) {
-    if (this._special === Special.Script && (c === "c" || c === "C")) {
+    if (this._special === Special.Script && (c === 'c' || c === 'C')) {
       this._state = State.AfterScript1;
-    } else if (this._special === Special.Style && (c === "t" || c === "T")) {
+    } else if (this._special === Special.Style && (c === 't' || c === 'T')) {
       this._state = State.AfterStyle1;
     } else this._state = State.Text;
   }
   _stateBeforeSpecialLast(c: string, special: Special) {
-    if (c === "/" || c === ">" || whitespace(c)) {
+    if (c === '/' || c === '>' || whitespace(c)) {
       this._special = special;
     }
     this._state = State.InTagName;
     this._index--; //consume the token again
   }
   _stateAfterSpecialLast(c: string, sectionStartOffset: number) {
-    if (c === ">" || whitespace(c)) {
+    if (c === '>' || whitespace(c)) {
       this._special = Special.None;
       this._state = State.InClosingTagName;
       this._sectionStart = this._index - sectionStartOffset;
@@ -610,21 +610,21 @@ export default class Tokenizer {
     }
   }
   _stateInNamedEntity(c: string) {
-    if (c === ";") {
+    if (c === ';') {
       this._parseNamedEntityStrict();
       if (this._sectionStart + 1 < this._index && !this._xmlMode) {
         this._parseLegacyEntity();
       }
       this._state = this._baseState;
     } else if (
-      (c < "a" || c > "z") &&
-      (c < "A" || c > "Z") &&
-      (c < "0" || c > "9")
+      (c < 'a' || c > 'z') &&
+      (c < 'A' || c > 'Z') &&
+      (c < '0' || c > '9')
     ) {
       if (this._xmlMode || this._sectionStart + 1 === this._index) {
         // ignore
       } else if (this._baseState !== State.Text) {
-        if (c !== "=") {
+        if (c !== '=') {
           this._parseNamedEntityStrict();
         }
       } else {
@@ -648,10 +648,10 @@ export default class Tokenizer {
     this._state = this._baseState;
   }
   _stateInNumericEntity(c: string) {
-    if (c === ";") {
+    if (c === ';') {
       this._decodeNumericEntity(2, 10);
       this._sectionStart++;
-    } else if (c < "0" || c > "9") {
+    } else if (c < '0' || c > '9') {
       if (!this._xmlMode) {
         this._decodeNumericEntity(2, 10);
       } else {
@@ -661,13 +661,13 @@ export default class Tokenizer {
     }
   }
   _stateInHexEntity(c: string) {
-    if (c === ";") {
+    if (c === ';') {
       this._decodeNumericEntity(3, 16);
       this._sectionStart++;
     } else if (
-      (c < "a" || c > "f") &&
-      (c < "A" || c > "F") &&
-      (c < "0" || c > "9")
+      (c < 'a' || c > 'f') &&
+      (c < 'A' || c > 'F') &&
+      (c < '0' || c > '9')
     ) {
       if (!this._xmlMode) {
         this._decodeNumericEntity(3, 16);
@@ -680,7 +680,7 @@ export default class Tokenizer {
 
   _cleanup() {
     if (this._sectionStart < 0) {
-      this._buffer = "";
+      this._buffer = '';
       this._bufferOffset += this._index;
       this._index = 0;
     } else if (this._running) {
@@ -688,12 +688,12 @@ export default class Tokenizer {
         if (this._sectionStart !== this._index) {
           this._cbs.ontext(this._buffer.substr(this._sectionStart));
         }
-        this._buffer = "";
+        this._buffer = '';
         this._bufferOffset += this._index;
         this._index = 0;
       } else if (this._sectionStart === this._index) {
         //the section just started
-        this._buffer = "";
+        this._buffer = '';
         this._bufferOffset += this._index;
         this._index = 0;
       } else {
@@ -708,7 +708,7 @@ export default class Tokenizer {
 
   //TODO make events conditional
   write(chunk: string) {
-    if (this._ended) this._cbs.onerror(Error(".write() after done!"));
+    if (this._ended) this._cbs.onerror(Error('.write() after done!'));
     this._buffer += chunk;
     this._parse();
   }
@@ -851,7 +851,7 @@ export default class Tokenizer {
       } else if (this._state === State.BeforeNumericEntity) {
         stateBeforeNumericEntity(this, c);
       } else {
-        this._cbs.onerror(Error("unknown _state"), this._state);
+        this._cbs.onerror(Error('unknown _state'), this._state);
       }
       this._index++;
     }
@@ -870,7 +870,7 @@ export default class Tokenizer {
     }
   }
   end(chunk?: string) {
-    if (this._ended) this._cbs.onerror(Error(".end() after done!"));
+    if (this._ended) this._cbs.onerror(Error('.end() after done!'));
     if (chunk) this.write(chunk);
     this._ended = true;
     if (this._running) this._finish();
@@ -936,7 +936,7 @@ export default class Tokenizer {
   _getSection(): string {
     return this._buffer.substring(this._sectionStart, this._index);
   }
-  _emitToken(name: "onopentagname" | "onclosetag" | "onattribdata") {
+  _emitToken(name: 'onopentagname' | 'onclosetag' | 'onattribdata') {
     this._cbs[name](this._getSection());
     this._sectionStart = -1;
   }

@@ -1,23 +1,23 @@
-import Tokenizer from "./Tokenizer";
+import Tokenizer from './Tokenizer';
 
 const formTags = new Set([
-  "input",
-  "option",
-  "optgroup",
-  "select",
-  "button",
-  "datalist",
-  "textarea",
+  'input',
+  'option',
+  'optgroup',
+  'select',
+  'button',
+  'datalist',
+  'textarea',
 ]);
 
-const pTag = new Set(["p"]);
+const pTag = new Set(['p']);
 
 const openImpliesClose: Record<string, Set<string>> = {
-  tr: new Set(["tr", "th", "td"]),
-  th: new Set(["th"]),
-  td: new Set(["thead", "th", "td"]),
-  body: new Set(["head", "link", "script"]),
-  li: new Set(["li"]),
+  tr: new Set(['tr', 'th', 'td']),
+  th: new Set(['th']),
+  td: new Set(['thead', 'th', 'td']),
+  body: new Set(['head', 'link', 'script']),
+  li: new Set(['li']),
   p: pTag,
   h1: pTag,
   h2: pTag,
@@ -31,10 +31,10 @@ const openImpliesClose: Record<string, Set<string>> = {
   button: formTags,
   datalist: formTags,
   textarea: formTags,
-  option: new Set(["option"]),
-  optgroup: new Set(["optgroup", "option"]),
-  dd: new Set(["dt", "dd"]),
-  dt: new Set(["dt", "dd"]),
+  option: new Set(['option']),
+  optgroup: new Set(['optgroup', 'option']),
+  dd: new Set(['dt', 'dd']),
+  dt: new Set(['dt', 'dd']),
   address: pTag,
   article: pTag,
   aside: pTag,
@@ -56,46 +56,46 @@ const openImpliesClose: Record<string, Set<string>> = {
   section: pTag,
   table: pTag,
   ul: pTag,
-  rt: new Set(["rt", "rp"]),
-  rp: new Set(["rt", "rp"]),
-  tbody: new Set(["thead", "tbody"]),
-  tfoot: new Set(["thead", "tbody"]),
+  rt: new Set(['rt', 'rp']),
+  rp: new Set(['rt', 'rp']),
+  tbody: new Set(['thead', 'tbody']),
+  tfoot: new Set(['thead', 'tbody']),
 };
 
 const voidElements = new Set([
-  "area",
-  "base",
-  "basefont",
-  "br",
-  "col",
-  "command",
-  "embed",
-  "frame",
-  "hr",
-  "img",
-  "input",
-  "isindex",
-  "keygen",
-  "link",
-  "meta",
-  "param",
-  "source",
-  "track",
-  "wbr",
+  'area',
+  'base',
+  'basefont',
+  'br',
+  'col',
+  'command',
+  'embed',
+  'frame',
+  'hr',
+  'img',
+  'input',
+  'isindex',
+  'keygen',
+  'link',
+  'meta',
+  'param',
+  'source',
+  'track',
+  'wbr',
 ]);
 
-const foreignContextElements = new Set(["math", "svg"]);
+const foreignContextElements = new Set(['math', 'svg']);
 
 const htmlIntegrationElements = new Set([
-  "mi",
-  "mo",
-  "mn",
-  "ms",
-  "mtext",
-  "annotation-xml",
-  "foreignObject",
-  "desc",
-  "title",
+  'mi',
+  'mo',
+  'mn',
+  'ms',
+  'mtext',
+  'annotation-xml',
+  'foreignObject',
+  'desc',
+  'title',
 ]);
 
 export interface ParserOptions {
@@ -168,9 +168,9 @@ export interface Handler {
 const reNameEnd = /\s|\//;
 
 export class Parser {
-  _tagname = "";
-  _attribname = "";
-  _attribvalue = "";
+  _tagname = '';
+  _attribname = '';
+  _attribvalue = '';
   _attribs: null | { [key: string]: string } = null;
   _stack: string[] = [];
   _foreignContext: boolean[] = [];
@@ -185,20 +185,20 @@ export class Parser {
   constructor(cbs: Partial<Handler> | null, options?: ParserOptions) {
     this._options = options || {};
     this._cbs = cbs || {};
-    this._tagname = "";
-    this._attribname = "";
-    this._attribvalue = "";
+    this._tagname = '';
+    this._attribname = '';
+    this._attribvalue = '';
     this._attribs = null;
     this._stack = [];
     this._foreignContext = [];
     this.startIndex = 0;
     this.endIndex = null;
     this._lowerCaseTagNames =
-      "lowerCaseTags" in this._options
+      'lowerCaseTags' in this._options
         ? !!this._options.lowerCaseTags
         : !this._options.xmlMode;
     this._lowerCaseAttributeNames =
-      "lowerCaseAttributeNames" in this._options
+      'lowerCaseAttributeNames' in this._options
         ? !!this._options.lowerCaseAttributeNames
         : !this._options.xmlMode;
     this._tokenizer = new (this._options.Tokenizer ?? Tokenizer)(
@@ -266,7 +266,7 @@ export class Parser {
     ) {
       this._cbs.onclosetag(this._tagname);
     }
-    this._tagname = "";
+    this._tagname = '';
   }
 
   onclosetag(name: string) {
@@ -290,11 +290,11 @@ export class Parser {
             this._cbs.onclosetag(this._stack.pop() as string);
           }
         } else this._stack.length = pos;
-      } else if (name === "p" && !this._options.xmlMode) {
+      } else if (name === 'p' && !this._options.xmlMode) {
         this.onopentagname(name);
         this._closeCurrentTag();
       }
-    } else if (!this._options.xmlMode && (name === "br" || name === "p")) {
+    } else if (!this._options.xmlMode && (name === 'br' || name === 'p')) {
       this.onopentagname(name);
       this._closeCurrentTag();
     }
@@ -342,8 +342,8 @@ export class Parser {
     ) {
       this._attribs[this._attribname] = this._attribvalue;
     }
-    this._attribname = "";
-    this._attribvalue = "";
+    this._attribname = '';
+    this._attribvalue = '';
   }
 
   _getInstructionName(value: string) {
@@ -407,8 +407,8 @@ export class Parser {
   reset() {
     this._cbs.onreset?.();
     this._tokenizer.reset();
-    this._tagname = "";
-    this._attribname = "";
+    this._tagname = '';
+    this._attribname = '';
     this._attribs = null;
     this._stack = [];
     this._cbs.onparserinit?.(this);

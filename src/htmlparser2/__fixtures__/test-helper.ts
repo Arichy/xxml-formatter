@@ -1,8 +1,8 @@
-import { Parser, Handler, ParserOptions } from "../Parser";
-import { CollectingHandler } from "../CollectingHandler";
-import { DomHandlerOptions } from "..";
-import fs from "fs";
-import path from "path";
+import { Parser, Handler, ParserOptions } from '../Parser';
+import { CollectingHandler } from '../CollectingHandler';
+import { DomHandlerOptions } from '..';
+import fs from 'fs';
+import path from 'path';
 
 export function writeToParser(
   handler: Partial<Handler>,
@@ -39,12 +39,12 @@ export function getEventCollector(
 }
 
 function eventReducer(events: Event[], arr: [string, ...unknown[]]): Event[] {
-  if (arr[0] === "onerror" || arr[0] === "onend" || arr[0] === "onparserinit") {
+  if (arr[0] === 'onerror' || arr[0] === 'onend' || arr[0] === 'onparserinit') {
     // ignore
   } else if (
-    arr[0] === "ontext" &&
+    arr[0] === 'ontext' &&
     events.length &&
-    events[events.length - 1].event === "text"
+    events[events.length - 1].event === 'text'
   ) {
     // Combine text nodes
     (events[events.length - 1].data[0] as string) += arr[1];
@@ -99,7 +99,7 @@ export function createSuite(
     const dir = path.join(__dirname, name);
 
     fs.readdirSync(dir)
-      .filter((file) => !file.startsWith(".") && !file.startsWith("_"))
+      .filter((file) => !file.startsWith('.') && !file.startsWith('_'))
       .map((name) => path.join(dir, name))
       .map(require)
       .forEach(runTest);

@@ -1,4 +1,4 @@
-import { Tokenizer } from ".";
+import { Tokenizer } from '.';
 
 class CallbackLogger {
   log: string[] = [];
@@ -47,8 +47,8 @@ class CallbackLogger {
   }
 }
 
-describe("Tokenizer", () => {
-  test("should support self-closing special tags", () => {
+describe('Tokenizer', () => {
+  test('should support self-closing special tags', () => {
     const logger = new CallbackLogger();
     const tokenizer = new Tokenizer(
       {
@@ -58,14 +58,14 @@ describe("Tokenizer", () => {
       logger
     );
 
-    const selfClosingScriptInput = "<script /><div></div>";
+    const selfClosingScriptInput = '<script /><div></div>';
     const selfClosingScriptOutput = [
       "onopentagname: 'script'",
-      "onselfclosingtag",
+      'onselfclosingtag',
       "onopentagname: 'div'",
-      "onopentagend",
+      'onopentagend',
       "onclosetag: 'div'",
-      "onend",
+      'onend',
     ];
 
     tokenizer.write(selfClosingScriptInput);
@@ -74,14 +74,14 @@ describe("Tokenizer", () => {
     tokenizer.reset();
     logger.log = [];
 
-    const selfClosingStyleInput = "<style /><div></div>";
+    const selfClosingStyleInput = '<style /><div></div>';
     const selfClosingStyleOutput = [
       "onopentagname: 'style'",
-      "onselfclosingtag",
+      'onselfclosingtag',
       "onopentagname: 'div'",
-      "onopentagend",
+      'onopentagend',
       "onclosetag: 'div'",
-      "onend",
+      'onend',
     ];
 
     tokenizer.write(selfClosingStyleInput);
@@ -90,14 +90,14 @@ describe("Tokenizer", () => {
     tokenizer.reset();
     logger.log = [];
 
-    const selfClosingTitleInput = "<title /><div></div>";
+    const selfClosingTitleInput = '<title /><div></div>';
     const selfClosingTitleOutput = [
       "onopentagname: 'title'",
-      "onselfclosingtag",
+      'onselfclosingtag',
       "onopentagname: 'div'",
-      "onopentagend",
+      'onopentagend',
       "onclosetag: 'div'",
-      "onend",
+      'onend',
     ];
 
     tokenizer.write(selfClosingTitleInput);
@@ -107,7 +107,7 @@ describe("Tokenizer", () => {
     logger.log = [];
   });
 
-  test("should support standard special tags", () => {
+  test('should support standard special tags', () => {
     const logger = new CallbackLogger();
     const tokenizer = new Tokenizer(
       {
@@ -117,15 +117,15 @@ describe("Tokenizer", () => {
       logger
     );
 
-    const normalScriptInput = "<script></script><div></div>";
+    const normalScriptInput = '<script></script><div></div>';
     const normalScriptOutput = [
       "onopentagname: 'script'",
-      "onopentagend",
+      'onopentagend',
       "onclosetag: 'script'",
       "onopentagname: 'div'",
-      "onopentagend",
+      'onopentagend',
       "onclosetag: 'div'",
-      "onend",
+      'onend',
     ];
 
     tokenizer.write(normalScriptInput);
@@ -134,15 +134,15 @@ describe("Tokenizer", () => {
     tokenizer.reset();
     logger.log = [];
 
-    const normalStyleInput = "<style></style><div></div>";
+    const normalStyleInput = '<style></style><div></div>';
     const normalStyleOutput = [
       "onopentagname: 'style'",
-      "onopentagend",
+      'onopentagend',
       "onclosetag: 'style'",
       "onopentagname: 'div'",
-      "onopentagend",
+      'onopentagend',
       "onclosetag: 'div'",
-      "onend",
+      'onend',
     ];
 
     tokenizer.write(normalStyleInput);
@@ -151,15 +151,15 @@ describe("Tokenizer", () => {
     tokenizer.reset();
     logger.log = [];
 
-    const normalTitleInput = "<title></title><div></div>";
+    const normalTitleInput = '<title></title><div></div>';
     const normalTitleOutput = [
       "onopentagname: 'title'",
-      "onopentagend",
+      'onopentagend',
       "onclosetag: 'title'",
       "onopentagname: 'div'",
-      "onopentagend",
+      'onopentagend',
       "onclosetag: 'div'",
-      "onend",
+      'onend',
     ];
 
     tokenizer.write(normalTitleInput);

@@ -19,7 +19,11 @@ export function generateBlankSpace(indent: number) {
   return result;
 }
 
-export function generateAttrsText(node: Node, breakAttrs: boolean, tabSize: number) {
+export function generateAttrsText(
+  node: Node,
+  breakAttrs: boolean,
+  tabSize: number
+) {
   const { attrs, indent } = node;
 
   if (breakAttrs) {

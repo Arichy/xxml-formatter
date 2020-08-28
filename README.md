@@ -18,7 +18,7 @@ A live demo of htmlparser2 is available [here](https://astexplorer.net/#/2AmVrGu
 ## Usage
 
 ```typescript
-import Formatter from "xxml-formatter";
+import Formatter from 'xxml-formatter';
 const formatter = new Formatter({ tabSize: 2 });
 
 const sourceCode = `<view><text>hello world</text></view>`;

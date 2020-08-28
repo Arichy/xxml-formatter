@@ -1,20 +1,20 @@
-import { Parser, Tokenizer } from ".";
+import { Parser, Tokenizer } from '.';
 
-describe("API", () => {
-  test("should work without callbacks", () => {
+describe('API', () => {
+  test('should work without callbacks', () => {
     const p = new Parser(null, {
       xmlMode: true,
       lowerCaseAttributeNames: true,
     });
 
-    p.end("<a foo><bar></a><!-- --><![CDATA[]]]><?foo?><!bar><boo/>boohay");
-    p.write("foo");
+    p.end('<a foo><bar></a><!-- --><![CDATA[]]]><?foo?><!bar><boo/>boohay');
+    p.write('foo');
 
     //check for an error
     p.end();
     let err = false;
     p._cbs.onerror = () => (err = true);
-    p.write("foo");
+    p.write('foo');
     expect(err).toBeTruthy();
     err = false;
     p.end();
@@ -26,18 +26,18 @@ describe("API", () => {
     p._cbs.onopentag = () => {
       /* Ignore */
     };
-    p.write("<a foo");
+    p.write('<a foo');
     delete p._cbs.onopentag;
-    p.write(">");
+    p.write('>');
 
     //pause/resume
     let processed = false;
     p._cbs.ontext = (t) => {
-      expect(t).toBe("foo");
+      expect(t).toBe('foo');
       processed = true;
     };
     p.pause();
-    p.write("foo");
+    p.write('foo');
     expect(processed).toBeFalsy();
     p.resume();
     expect(processed).toBeTruthy();
@@ -47,15 +47,15 @@ describe("API", () => {
     p.resume();
     expect(processed).toBeFalsy();
     p.pause();
-    p.end("foo");
+    p.end('foo');
     expect(processed).toBeFalsy();
     p.resume();
     expect(processed).toBeTruthy();
   });
 
-  test("should back out of numeric entities (#125)", () => {
+  test('should back out of numeric entities (#125)', () => {
     let finished = false;
-    let text = "";
+    let text = '';
     const p = new Parser({
       ontext(data) {
         text += data;
@@ -65,53 +65,53 @@ describe("API", () => {
       },
     });
 
-    p.end("id=770&#anchor");
+    p.end('id=770&#anchor');
 
     expect(finished).toBeTruthy();
-    expect(text).toBe("id=770&#anchor");
+    expect(text).toBe('id=770&#anchor');
 
     p.reset();
-    text = "";
+    text = '';
     finished = false;
 
-    p.end("0&#xn");
+    p.end('0&#xn');
 
     expect(finished).toBeTruthy();
-    expect(text).toBe("0&#xn");
+    expect(text).toBe('0&#xn');
   });
 
-  test("should update the position", () => {
+  test('should update the position', () => {
     const p = new Parser(null);
 
-    p.write("foo");
+    p.write('foo');
 
     expect(p.startIndex).toBe(0);
     expect(p.endIndex).toBe(2);
 
-    p.write("<bar>");
+    p.write('<bar>');
 
     expect(p.startIndex).toBe(3);
     expect(p.endIndex).toBe(7);
   });
 
-  test("should update the position when a single tag is spread across multiple chunks", () => {
+  test('should update the position when a single tag is spread across multiple chunks', () => {
     const p = new Parser(null);
 
-    p.write("<div ");
-    p.write("foo=bar>");
+    p.write('<div ');
+    p.write('foo=bar>');
 
     expect(p.startIndex).toBe(0);
     expect(p.endIndex).toBe(12);
   });
 
-  test("should parse <__proto__> (#387)", () => {
+  test('should parse <__proto__> (#387)', () => {
     const p = new Parser(null);
 
     // Should not throw
-    p.write("<__proto__>");
+    p.write('<__proto__>');
   });
 
-  test("should support custom tokenizer", () => {
+  test('should support custom tokenizer', () => {
     class CustomTokenizer extends Tokenizer {}
 
     const p = new Parser(

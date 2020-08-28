@@ -15,7 +15,10 @@ const formatter = new Formatter({
 formatter.parse(text);
 const json = formatter.generateJSON();
 
-writeFileSync(resolve(__dirname, './result.json'), JSON.stringify(json, null, 2));
+writeFileSync(
+  resolve(__dirname, './result.json'),
+  JSON.stringify(json, null, 2)
+);
 
 const result = formatter.format(text);
 writeFileSync(resolve(__dirname, './result.ttml'), result);

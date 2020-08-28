@@ -1,4 +1,4 @@
-import { Handler } from "./Parser";
+import { Handler } from './Parser';
 
 /**
  * Calls a specific handler function for all events that are encountered.
@@ -14,45 +14,45 @@ export default class MultiplexHandler implements Handler {
 
   /* Format: eventname: number of arguments */
   onattribute(name: string, value: string) {
-    this._func("onattribute", name, value);
+    this._func('onattribute', name, value);
   }
   oncdatastart() {
-    this._func("oncdatastart");
+    this._func('oncdatastart');
   }
   oncdataend() {
-    this._func("oncdataend");
+    this._func('oncdataend');
   }
   ontext(text: string) {
-    this._func("ontext", text);
+    this._func('ontext', text);
   }
   onprocessinginstruction(name: string, value: string) {
-    this._func("onprocessinginstruction", name, value);
+    this._func('onprocessinginstruction', name, value);
   }
   oncomment(comment: string) {
-    this._func("oncomment", comment);
+    this._func('oncomment', comment);
   }
   oncommentend() {
-    this._func("oncommentend");
+    this._func('oncommentend');
   }
   onclosetag(name: string) {
-    this._func("onclosetag", name);
+    this._func('onclosetag', name);
   }
   onopentag(name: string, attribs: { [key: string]: string }) {
-    this._func("onopentag", name, attribs);
+    this._func('onopentag', name, attribs);
   }
   onopentagname(name: string) {
-    this._func("onopentagname", name);
+    this._func('onopentagname', name);
   }
   onerror(error: Error) {
-    this._func("onerror", error);
+    this._func('onerror', error);
   }
   onend() {
-    this._func("onend");
+    this._func('onend');
   }
   onparserinit(parser: {}) {
-    this._func("onparserinit", parser);
+    this._func('onparserinit', parser);
   }
   onreset() {
-    this._func("onreset");
+    this._func('onreset');
   }
 }

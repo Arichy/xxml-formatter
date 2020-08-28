@@ -1,14 +1,14 @@
-import * as helper from "../__fixtures__/test-helper";
-import { WritableStream } from "../WritableStream";
-import fs from "fs";
-import path from "path";
+import * as helper from '../__fixtures__/test-helper';
+import { WritableStream } from '../WritableStream';
+import fs from 'fs';
+import path from 'path';
 
-helper.createSuite("Stream", (test, cb) => {
+helper.createSuite('Stream', (test, cb) => {
   const filePath = path.join(
     __dirname,
-    "..",
-    "__fixtures__",
-    "Documents",
+    '..',
+    '__fixtures__',
+    'Documents',
     test.file
   );
 
@@ -29,5 +29,5 @@ helper.createSuite("Stream", (test, cb) => {
         test.options
       )
     )
-    .on("error", cb);
+    .on('error', cb);
 });

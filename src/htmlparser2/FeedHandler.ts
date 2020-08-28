@@ -1,6 +1,6 @@
-import DomHandler, { DomHandlerOptions, Node, Element } from "domhandler";
-import * as DomUtils from "domutils";
-import { Parser, ParserOptions } from "./Parser";
+import DomHandler, { DomHandlerOptions, Node, Element } from 'domhandler';
+import * as DomUtils from 'domutils';
+import { Parser, ParserOptions } from './Parser';
 
 interface FeedItem {
   id?: string;
@@ -34,7 +34,7 @@ export class FeedHandler extends DomHandler {
     callback?: ((error: Error | null) => void) | DomHandlerOptions,
     options?: DomHandlerOptions
   ) {
-    if (typeof callback === "object" && callback !== null) {
+    if (typeof callback === 'object' && callback !== null) {
       callback = undefined;
       options = callback;
     }
@@ -46,42 +46,42 @@ export class FeedHandler extends DomHandler {
     const feedRoot = getOneElement(isValidFeed, this.dom);
 
     if (feedRoot) {
-      if (feedRoot.name === "feed") {
+      if (feedRoot.name === 'feed') {
         const childs = feedRoot.children;
-        feed.type = "atom";
-        addConditionally(feed, "id", "id", childs);
-        addConditionally(feed, "title", "title", childs);
-        const href = getAttribute("href", getOneElement("link", childs));
+        feed.type = 'atom';
+        addConditionally(feed, 'id', 'id', childs);
+        addConditionally(feed, 'title', 'title', childs);
+        const href = getAttribute('href', getOneElement('link', childs));
         if (href) {
           feed.link = href;
         }
-        addConditionally(feed, "description", "subtitle", childs);
+        addConditionally(feed, 'description', 'subtitle', childs);
 
-        const updated = fetch("updated", childs);
+        const updated = fetch('updated', childs);
         if (updated) {
           feed.updated = new Date(updated);
         }
 
-        addConditionally(feed, "author", "email", childs, true);
-        feed.items = getElements("entry", childs).map((item) => {
+        addConditionally(feed, 'author', 'email', childs, true);
+        feed.items = getElements('entry', childs).map((item) => {
           const entry: FeedItem = {};
           const { children } = item;
 
-          addConditionally(entry, "id", "id", children);
-          addConditionally(entry, "title", "title", children);
+          addConditionally(entry, 'id', 'id', children);
+          addConditionally(entry, 'title', 'title', children);
 
-          const href = getAttribute("href", getOneElement("link", children));
+          const href = getAttribute('href', getOneElement('link', children));
           if (href) {
             entry.link = href;
           }
 
           const description =
-            fetch("summary", children) || fetch("content", children);
+            fetch('summary', children) || fetch('content', children);
           if (description) {
             entry.description = description;
           }
 
-          const pubDate = fetch("updated", children);
+          const pubDate = fetch('updated', children);
           if (pubDate) {
             entry.pubDate = new Date(pubDate);
           }
@@ -89,30 +89,30 @@ export class FeedHandler extends DomHandler {
           return entry;
         });
       } else {
-        const childs = getOneElement("channel", feedRoot.children).children;
+        const childs = getOneElement('channel', feedRoot.children).children;
         feed.type = feedRoot.name.substr(0, 3);
-        feed.id = "";
+        feed.id = '';
 
-        addConditionally(feed, "title", "title", childs);
-        addConditionally(feed, "link", "link", childs);
-        addConditionally(feed, "description", "description", childs);
+        addConditionally(feed, 'title', 'title', childs);
+        addConditionally(feed, 'link', 'link', childs);
+        addConditionally(feed, 'description', 'description', childs);
 
-        const updated = fetch("lastBuildDate", childs);
+        const updated = fetch('lastBuildDate', childs);
         if (updated) {
           feed.updated = new Date(updated);
         }
 
-        addConditionally(feed, "author", "managingEditor", childs, true);
+        addConditionally(feed, 'author', 'managingEditor', childs, true);
 
-        feed.items = getElements("item", feedRoot.children).map(
+        feed.items = getElements('item', feedRoot.children).map(
           (item: Element) => {
             const entry: FeedItem = {};
             const { children } = item;
-            addConditionally(entry, "id", "guid", children);
-            addConditionally(entry, "title", "title", children);
-            addConditionally(entry, "link", "link", children);
-            addConditionally(entry, "description", "description", children);
-            const pubDate = fetch("pubDate", children);
+            addConditionally(entry, 'id', 'guid', children);
+            addConditionally(entry, 'title', 'title', children);
+            addConditionally(entry, 'link', 'link', children);
+            addConditionally(entry, 'description', 'description', children);
+            const pubDate = fetch('pubDate', children);
             if (pubDate) entry.pubDate = new Date(pubDate);
             return entry;
           }
@@ -162,7 +162,7 @@ function addConditionally<T>(
 }
 
 function isValidFeed(value: string) {
-  return value === "rss" || value === "feed" || value === "rdf:RDF";
+  return value === 'rss' || value === 'feed' || value === 'rdf:RDF';
 }
 
 const defaultOptions = { xmlMode: true };

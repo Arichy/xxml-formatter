@@ -2,10 +2,7 @@
   {
     "name": "text",
     "attrs": {},
-    "children": [
-      "{{a",
-      "\n"
-    ],
+    "children": ["{{a", "\n"],
     "indent": 0
   }
 ]
