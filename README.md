@@ -19,25 +19,25 @@ A live demo of htmlparser2 is available [here](https://astexplorer.net/#/2AmVrGu
 ```javascript
 const htmlparser2 = require("htmlparser2");
 const parser = new htmlparser2.Parser(
-    {
-        onopentag(name, attribs) {
-            if (name === "script" && attribs.type === "text/javascript") {
-                console.log("JS! Hooray!");
-            }
-        },
-        ontext(text) {
-            console.log("-->", text);
-        },
-        onclosetag(tagname) {
-            if (tagname === "script") {
-                console.log("That's it?!");
-            }
-        },
+  {
+    onopentag(name, attribs) {
+      if (name === "script" && attribs.type === "text/javascript") {
+        console.log("JS! Hooray!");
+      }
     },
-    { decodeEntities: true }
+    ontext(text) {
+      console.log("-->", text);
+    },
+    onclosetag(tagname) {
+      if (tagname === "script") {
+        console.log("That's it?!");
+      }
+    },
+  },
+  { decodeEntities: true }
 );
 parser.write(
-    "Xyz <script type='text/javascript'>var foo = '<<bar>>';</ script>"
+  "Xyz <script type='text/javascript'>var foo = '<<bar>>';</ script>"
 );
 parser.end();
 ```
@@ -58,12 +58,12 @@ While the `Parser` interface closely resembles Node.js streams, it's not a 100% 
 ```javascript
 const htmlparser2 = require("htmlparser2");
 const parserStream = new htmlparser2.WritableStream(
-    {
-        ontext(text) {
-            console.log("Streaming:", text);
-        },
+  {
+    ontext(text) {
+      console.log("Streaming:", text);
     },
-    { decodeEntities: true }
+  },
+  { decodeEntities: true }
 );
 
 const htmlStream = getHtmlStreamFromSomewhere();

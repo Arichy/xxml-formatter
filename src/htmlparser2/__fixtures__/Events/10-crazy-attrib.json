@@ -1,40 +1,40 @@
 {
-    "name": "crazy attribute",
-    "options": {
-        "handler": {},
-        "parser": {}
+  "name": "crazy attribute",
+  "options": {
+    "handler": {},
+    "parser": {}
+  },
+  "html": "<p < = '' FAIL>stuff</p><a",
+  "expected": [
+    {
+      "event": "opentagname",
+      "data": ["p"]
     },
-    "html": "<p < = '' FAIL>stuff</p><a",
-    "expected": [
+    {
+      "event": "attribute",
+      "data": ["<", ""]
+    },
+    {
+      "event": "attribute",
+      "data": ["fail", ""]
+    },
+    {
+      "event": "opentag",
+      "data": [
+        "p",
         {
-            "event": "opentagname",
-            "data": ["p"]
-        },
-        {
-            "event": "attribute",
-            "data": ["<", ""]
-        },
-        {
-            "event": "attribute",
-            "data": ["fail", ""]
-        },
-        {
-            "event": "opentag",
-            "data": [
-                "p",
-                {
-                    "<": "",
-                    "fail": ""
-                }
-            ]
-        },
-        {
-            "event": "text",
-            "data": ["stuff"]
-        },
-        {
-            "event": "closetag",
-            "data": ["p"]
+          "<": "",
+          "fail": ""
         }
-    ]
+      ]
+    },
+    {
+      "event": "text",
+      "data": ["stuff"]
+    },
+    {
+      "event": "closetag",
+      "data": ["p"]
+    }
+  ]
 }

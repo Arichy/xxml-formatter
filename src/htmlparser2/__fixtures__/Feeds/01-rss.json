@@ -1,5 +1,5 @@
 {
-    "name": "RSS (2.0)",
-    "file": "RSS_Example.xml",
-    "useSnapshot": true
+  "name": "RSS (2.0)",
+  "file": "RSS_Example.xml",
+  "useSnapshot": true
 }

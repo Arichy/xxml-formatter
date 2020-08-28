@@ -1,11 +1,11 @@
 {
-    "name": "Empty tag name",
-    "options": {},
-    "html": "< ></ >",
-    "expected": [
-        {
-            "event": "text",
-            "data": ["< ></ >"]
-        }
-    ]
+  "name": "Empty tag name",
+  "options": {},
+  "html": "< ></ >",
+  "expected": [
+    {
+      "event": "text",
+      "data": ["< ></ >"]
+    }
+  ]
 }

@@ -16,9 +16,9 @@ type Options = ParserOptions & DomHandlerOptions;
  * @param options Optional options for the parser and DOM builder.
  */
 export function parseDOM(data: string, options?: Options): Node[] {
-    const handler = new DomHandler(void 0, options);
-    new Parser(handler, options).end(data);
-    return handler.dom;
+  const handler = new DomHandler(void 0, options);
+  new Parser(handler, options).end(data);
+  return handler.dom;
 }
 /**
  * Creates a parser instance, with an attached DOM handler.
@@ -28,12 +28,12 @@ export function parseDOM(data: string, options?: Options): Node[] {
  * @param elementCb An optional callback that will be called every time a tag has been completed inside of the DOM.
  */
 export function createDomStream(
-    cb: (error: Error | null, dom: Node[]) => void,
-    options?: Options,
-    elementCb?: (element: Element) => void
+  cb: (error: Error | null, dom: Node[]) => void,
+  options?: Options,
+  elementCb?: (element: Element) => void
 ) {
-    const handler = new DomHandler(cb, options, elementCb);
-    return new Parser(handler, options);
+  const handler = new DomHandler(cb, options, elementCb);
+  return new Parser(handler, options);
 }
 
 export { default as Tokenizer } from "./Tokenizer";
@@ -46,18 +46,18 @@ export { ElementType };
  * Format: eventname: number of arguments.
  */
 export const EVENTS = {
-    attribute: 2,
-    cdatastart: 0,
-    cdataend: 0,
-    text: 1,
-    processinginstruction: 2,
-    comment: 1,
-    commentend: 0,
-    closetag: 1,
-    opentag: 2,
-    opentagname: 1,
-    error: 1,
-    end: 0,
+  attribute: 2,
+  cdatastart: 0,
+  cdataend: 0,
+  text: 1,
+  processinginstruction: 2,
+  comment: 1,
+  commentend: 0,
+  closetag: 1,
+  opentag: 2,
+  opentagname: 1,
+  error: 1,
+  end: 0,
 };
 
 /*
