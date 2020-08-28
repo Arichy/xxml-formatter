@@ -87,6 +87,8 @@ const enum State {
   InNamedEntity,
   InNumericEntity,
   InHexEntity, //X
+
+  InExpr,
 }
 
 const enum Special {
@@ -271,6 +273,8 @@ export default class Tokenizer {
     this._ended = false;
   }
 
+  _stateBeforeEnterExpr: State = State.Text;
+
   _stateText(c: string) {
     if (c === '<') {
       if (this._index > this._sectionStart) {
@@ -289,8 +293,18 @@ export default class Tokenizer {
       this._baseState = State.Text;
       this._state = State.BeforeEntity;
       this._sectionStart = this._index;
+    } else if (c === '{' && this._buffer.charAt(this._index + 1) === '{') {
+      this._stateBeforeEnterExpr = this._state;
+      this._state = State.InExpr;
     }
   }
+
+  _stateInExpr(c: string) {
+    if (c === '}' && this._buffer.charAt(this._index + 1) === '}') {
+      this._state = this._stateBeforeEnterExpr;
+    }
+  }
+
   _stateBeforeTagName(c: string) {
     if (c === '/') {
       this._state = State.BeforeClosingTagName;
@@ -720,6 +734,8 @@ export default class Tokenizer {
       const c = this._buffer.charAt(this._index);
       if (this._state === State.Text) {
         this._stateText(c);
+      } else if (this._state === State.InExpr) {
+        this._stateInExpr(c);
       } else if (this._state === State.InAttributeValueDq) {
         this._stateInAttributeValueDoubleQuotes(c);
       } else if (this._state === State.InAttributeName) {

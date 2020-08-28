@@ -2,7 +2,9 @@
   {
     "name": "text",
     "attrs": {},
-    "children": ["{{a", "\n"],
+    "children": [
+      "{{'}<edf>'}}"
+    ],
     "indent": 0
   }
 ]
