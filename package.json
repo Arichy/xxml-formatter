@@ -38,7 +38,8 @@
     "format:prettier": "npm run format:prettier:raw -- --write",
     "format:prettier:raw": "prettier '**/*.{ts,md,json,yml}'",
     "build": "tsc",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "dev": "ts-node dev/index.ts"
   },
   "dependencies": {
     "domelementtype": "^2.0.1",
@@ -68,6 +69,8 @@
   },
   "license": "MIT",
   "prettier": {
-    "tabWidth": 2
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
   }
 }

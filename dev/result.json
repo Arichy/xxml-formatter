@@ -1,0 +1,11 @@
+[
+  {
+    "name": "text",
+    "attrs": {},
+    "children": [
+      "{{a",
+      "\n"
+    ],
+    "indent": 0
+  }
+]
