@@ -1,22 +1,21 @@
 {
-  "name": "htmlparser2",
-  "description": "Fast & forgiving HTML/XML/RSS parser",
-  "version": "4.1.0",
-  "author": "Felix Boehm <me@feedic.com>",
+  "name": "xxml-formatter",
+  "description": "A formatter for wxml ttml and so on",
+  "version": "1.0.0",
+  "author": {
+    "name": "ArichyX",
+    "email": "arichyx@gmail.com"
+  },
   "sideEffects": false,
   "keywords": [
-    "html",
+    "wxml",
+    "ttml",
     "parser",
-    "streams",
-    "xml",
-    "dom",
-    "rss",
-    "feed",
-    "atom"
+    "formatter"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/fb55/htmlparser2.git"
+    "url": "git@github.com:Arichy/xxml-formatter.git"
   },
   "directories": {
     "lib": "lib/"
@@ -60,6 +59,7 @@
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
     "ts-jest": "^26.0.0",
+    "ts-node": "^9.0.0",
     "typescript": "^3.5.3"
   },
   "jest": {
