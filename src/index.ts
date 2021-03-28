@@ -1,3 +1,4 @@
+// @ts-ignore
 import { Parser } from './htmlparser2';
 import { Attrs, Node, Options } from './types';
 import { generateBlankSpace, generateAttrsText } from './utils/textGenerator';
@@ -7,11 +8,11 @@ import { IGNORE_TAGS, BR } from './const';
 const defaultOptions: Options = {
   tabSize: 2,
   maxLength: 80,
-  selfClose: false,
+  selfClose: true,
 };
 
 type Stack = Node[] & {
-  getLast: () => Node | void;
+  getLast?: () => Node | void;
 };
 
 export default class TTMLFormatter {
@@ -73,8 +74,6 @@ export default class TTMLFormatter {
     const stack = this.stack;
     const node = stack.pop();
 
-    stack.getLast();
-
     if (!node) {
       throw `Parse error: no open tag for close tag ${name}`;
     } else {
@@ -107,12 +106,23 @@ export default class TTMLFormatter {
 
         this.handleText(text);
       } else {
-        const trimedText = text.trim();
+        // const trimedText = text.trim();
+        const trimedTextArr = text.split('').filter(char => char !== ' ');
+        // 预期 trimedTextArr 全为换行符
+
+        const trimedText = trimedTextArr.length >= 2 ? BR : '';
+
         if (trimedText.length > 0) {
           lastNode.children.push(trimedText);
           this.handleText(trimedText);
         }
       }
+    } else {
+      // 最外层的 node
+      const trimedTextArr = text.split('').filter(char => char !== ' ');
+      // 预期 trimedTextArr 全为换行符
+      const trimedText = trimedTextArr.length >= 2 ? BR : '';
+      this.handleText(trimedText);
     }
   };
 
@@ -163,11 +173,7 @@ export default class TTMLFormatter {
     } else {
       opentagStr = generateBlankSpace(indent);
 
-      const opentagLength = getOpentagLength(
-        name,
-        attrsTextWithoutBreak,
-        indent
-      );
+      const opentagLength = getOpentagLength(name, attrsTextWithoutBreak, indent);
       if (opentagLength > maxLength) {
         // 超过最大长度限制，那么每个 attr 都要换行
         if (Object.keys(attrs).length === 0) {
@@ -192,6 +198,17 @@ export default class TTMLFormatter {
   private handleClosetag(node: Node) {
     const { name, indent } = node;
     let closetagStr = '';
+
+    const noChildren =
+      node.children.length === 0 ||
+      node.children.every(childNode => typeof childNode === 'string' && childNode.trim().length === 0);
+
+    const selfClose = this.opt.selfClose && noChildren;
+
+    if (selfClose) {
+      this.resultStr = this.resultStr.slice(0, -1) + ' />';
+      return;
+    }
 
     if (IGNORE_TAGS.includes(name)) {
       // 忽略元素直接原地结束
